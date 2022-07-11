@@ -19,7 +19,28 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+Route.get('health', async ({ response }) => {
+    const report = await HealthCheck.getReport()
+  
+    return report.healthy
+      ? response.ok(report)
+      : response.badRequest(report)
+}) //checking db connection
+
+Route.group(() => {
+    Route.resource('/users','UsersController').apiOnly()
+    Route.resource('user.allposts','AllPostsController').apiOnly()
+    Route.shallowResource('allposts.comments','CommentsController').apiOnly()
+    Route.put('/comment/:comment_id/like-unlike','CommentsController.likeUnlike')
+    Route.resource('/comment/:comment_id/reply','RepliesController')
+    Route.put('/reply/:reply_id/like-unlike','RepliesController.likeUnlike')
+
+}).prefix('api/v1')
+
+
+
+
+
+
