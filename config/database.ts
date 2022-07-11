@@ -39,9 +39,9 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
       connection: {
         host: Env.get('PG_HOST','127.0.0.1'),
         port: Env.get('PG_PORT',5432),
-        user: Env.get('PG_USER','postgres'),
-        password: Env.get('PG_PASSWORD', 'aseel123'),
-        database: Env.get('PG_DB_NAME','social'),
+        user: Env.get('PG_USER',),
+        password: Env.get('PG_PASSWORD', ),
+        database: Env.get('PG_DB_NAME',),
       },
       healthCheck: true,
 			debug: false,
